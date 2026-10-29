@@ -14,26 +14,7 @@ It ships with one neutral example, `GET /me`, which returns the signed-in user's
 
 ## Architecture
 
-```
- Browser (React on Amplify Hosting)
-    |  1. sign up / sign in (SRP)            ->  Amazon Cognito user pool
-    |  2. receives a JWT
-    |  3. calls the API with Authorization: Bearer <JWT>
-    v
- API Gateway (HTTP API) --validates JWT with Cognito-->  rejects with 401 if invalid
-    |
-    v
- AWS Lambda (one function + one scoped IAM role per route)
-    |                         \
-    v                          v
- DynamoDB (on-demand)       CloudWatch Logs
-
- Realtime rooms (optional, on by default):
- Browser <--WebSocket--> API Gateway WebSocket API --> Lambda authorizer (verifies the Cognito token)
-                                   |
-                                   v
-                          one Lambda --> DynamoDB (rooms, players, TTL)
-```
+![AWS serverless web app architecture](assets/gamathon-architecture.png)
 
 ## Repo map
 
