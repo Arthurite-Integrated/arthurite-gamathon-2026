@@ -25,6 +25,7 @@ backend/src/handlers/  one file per Lambda handler (ws-handler.ts and ws-authori
 backend/src/shared/    domain logic shared by handlers (rooms.ts, router.ts, validate.ts, types.ts)
 backend/test/          jest tests
 amplify.yml            the ONLY Amplify build spec (repo root; read by backend/lib/frontend-stack.ts)
+setup/                 setup-windows.ps1 and setup-mac-linux.sh: install the tools and the project, run the tests (first thing a new person runs)
 scripts/               init.mjs (name a new project), verify.mjs (run every gate)
 .github/workflows/     ci.yml (same gates as verify.mjs)
 docs/                  SETUP.md, KIRO-PROMPTS.md, REALTIME-PROTOCOL.md, LESSONS-LEARNED.md

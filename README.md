@@ -43,6 +43,9 @@ It ships with one neutral example, `GET /me`, which returns the signed-in user's
 ├── amplify.yml                   THE Amplify build spec (repo root, builds inside frontend/); the CDK stack reads this file
 ├── .node-version                 Node 24, used by CI and matched by the Amplify build
 ├── .github/workflows/ci.yml      runs the same gates as scripts/verify.mjs on push and pull request
+├── setup/
+│   ├── setup-windows.ps1         installs the tools and the project on Windows, then runs the tests
+│   └── setup-mac-linux.sh        the same for macOS and Linux
 ├── scripts/
 │   ├── init.mjs                  names a new project: node scripts/init.mjs my-app --github owner/repo
 │   └── verify.mjs                runs every gate for backend and frontend, no AWS credentials needed
@@ -69,8 +72,11 @@ It ships with one neutral example, `GET /me`, which returns the signed-in user's
 You need Node.js 22+, an AWS account, and AWS CLI credentials configured (`aws sts get-caller-identity` should work).
 
 ```bash
-# 1. Install (npm ci uses the committed lockfiles)
-cd backend && npm ci && cd ../frontend && npm ci && cd ..
+# 1. Install the tools and the project. The setup script checks Node 22+, Git, AWS CLI v2 and Chrome,
+#    installs what is missing, runs npm ci in backend/ and frontend/, and runs the tests.
+bash setup/setup-mac-linux.sh                                         # Mac or Linux
+# powershell -ExecutionPolicy Bypass -File .\setup\setup-windows.ps1  # Windows (PowerShell)
+# (or by hand: cd backend && npm ci && cd ../frontend && npm ci && cd ..)
 
 # 2. Name your project (lowercase letters, digits, hyphens).
 #    Optional: --github owner/repo to connect Amplify, --region eu-west-1

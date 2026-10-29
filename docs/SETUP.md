@@ -2,6 +2,24 @@
 
 Do this once per computer. It takes about 20 minutes. Every step ends with a check command, so you know it worked before moving on.
 
+## Fastest way: run the setup script
+
+From the project folder, run the script for your computer. It checks what you have, installs what is missing (Node.js 22 or newer, Git, AWS CLI v2, Google Chrome), installs the project's npm packages, and runs the backend and frontend tests. It is safe to run again: anything already installed is skipped.
+
+**Windows** (PowerShell):
+```powershell
+powershell -ExecutionPolicy Bypass -File .\setup\setup-windows.ps1
+```
+
+**Mac or Linux**:
+```bash
+bash setup/setup-mac-linux.sh
+```
+
+Add `-Check` (Windows) or `--check` (Mac/Linux) to only report what is installed and change nothing. Add `-Yes` or `--yes` to skip the questions, and `-SkipProject` or `--skip-project` to skip the npm install and tests.
+
+The script cannot do two things for you: **sign in to AWS** (step 4 below) and **install Kiro** (step 7). It tells you at the end if either is still needed. If it reports everything ready, you can skip to step 4, then 5, and 8. The numbered steps below are the same work done by hand, and the place to look if the script reports a problem.
+
 ## What you need
 
 | Tool | Why | Check |

@@ -1,0 +1,5 @@
+# Keep shell scripts on LF even when checked out on Windows (CRLF makes `bash setup-mac-linux.sh` fail
+# with "$'\r': command not found"). PowerShell scripts are fine with either, CRLF is the Windows norm.
+*.sh   text eol=lf
+*.mjs  text eol=lf
+*.ps1  text eol=crlf
