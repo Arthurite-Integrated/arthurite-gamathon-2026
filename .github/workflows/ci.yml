@@ -1,0 +1,50 @@
+# Runs the same gates as scripts/verify.mjs on every push and pull request.
+# Amplify only runs `npm ci` and `npm run build`; it does NOT run tests. This workflow is where tests run.
+# It needs no AWS credentials: `cdk synth` works offline.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read # least privilege: the jobs only read the code
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm run build # type-check
+      - run: npm test
+      - run: npx cdk synth --quiet # also fails if any resource is missing the partner tag
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run build # type-check + production build
+      - run: npm test

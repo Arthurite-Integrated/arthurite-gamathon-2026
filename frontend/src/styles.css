@@ -1,0 +1,227 @@
+:root {
+  --bg: #f6f8f4;
+  --surface: #ffffff;
+  --text: #17231a;
+  --muted: #5c6b5f;
+  --border: #dbe3d8;
+  --accent: #1f6b3a;
+  --accent-text: #ffffff;
+  --danger: #b3261e;
+  color-scheme: light dark;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #101612;
+    --surface: #18211b;
+    --text: #e8efe9;
+    --muted: #9aab9d;
+    --border: #2a3a2e;
+    --accent: #4fbf7a;
+    --accent-text: #0b1a10;
+    --danger: #ff8a80;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+main {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+h1 { font-size: 1.5rem; margin: 0 0 16px; }
+h2 { font-size: 1.1rem; margin: 0 0 8px; }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+label { display: flex; flex-direction: column; gap: 4px; font-size: 0.9rem; }
+.field { display: flex; flex-direction: column; gap: 4px; font-size: 0.9rem; }
+
+/* Password input with a show/hide eye button inside its right edge. */
+.password-field { position: relative; display: flex; }
+.password-field input { flex: 1; min-width: 0; padding-right: 48px; }
+.password-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 44px; /* comfortable touch target */
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: none;
+  color: var(--muted);
+  border-radius: 0 8px 8px 0;
+}
+.password-toggle:hover:not(:disabled) { color: var(--text); }
+.password-toggle:focus-visible { outline-offset: -2px; }
+.password-toggle[aria-pressed='true'] { color: var(--accent); }
+
+input {
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+input:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button {
+  font: inherit;
+  font-weight: 600;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-text);
+  cursor: pointer;
+}
+
+button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+button.link {
+  background: none;
+  color: var(--accent);
+  padding: 4px 0;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+p { margin: 0; }
+.muted { color: var(--muted); font-size: 0.9rem; }
+.error { color: var(--danger); font-size: 0.9rem; }
+code { font-size: 0.85em; background: var(--bg); padding: 1px 5px; border-radius: 4px; }
+
+pre {
+  margin: 0;
+  padding: 12px;
+  overflow-x: auto;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px; }
+.row > label { flex: 1; min-width: 100px; }
+.row > input { flex: 1; min-width: 120px; }
+select {
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+}
+.players { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.players li { display: flex; align-items: center; gap: 8px; }
+.badge {
+  font-size: 0.75rem;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-text);
+}
+.badge.warn { background: var(--danger); color: var(--surface); }
+.log { max-height: 220px; overflow: auto; white-space: pre-wrap; word-break: break-word; font-size: 0.78rem; }
+
+/* ---- XO game ---- */
+
+.room-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 1.4rem;
+  letter-spacing: 0.2em;
+}
+
+.game-head { display: flex; align-items: center; justify-content: space-between; }
+
+.marks { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.marks li { display: flex; align-items: center; gap: 8px; }
+.marks .badge { margin-left: 6px; }
+.mark {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  font-weight: 700;
+}
+.mark-x, .cell-x { color: var(--accent); }
+.mark-o, .cell-o { color: var(--text); }
+
+.status { font-weight: 600; text-align: center; }
+
+.banner {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  font-weight: 600;
+  text-align: center;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: min(100%, 360px);
+  margin: 0 auto;
+}
+
+.cell {
+  aspect-ratio: 1;
+  padding: 0;
+  font-size: clamp(2rem, 14vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  touch-action: manipulation;
+}
+.cell:not(:disabled):hover { border-color: var(--accent); }
+.cell:disabled { opacity: 1; cursor: default; }
+.cell:disabled:not(.cell-x):not(.cell-o) { cursor: not-allowed; }
+
+/* Winning cells: color plus a heavier outline, so it does not rely on color alone. */
+.cell.win {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--text);
+  border-width: 4px;
+}
+
+.result { text-align: center; font-size: 1.8rem; margin: 0; }
+.result-win { color: var(--accent); }
+.result-lose { color: var(--danger); }

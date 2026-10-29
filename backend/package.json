@@ -1,0 +1,39 @@
+{
+  "name": "backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Serverless backend (AWS CDK, TypeScript)",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "test": "jest",
+    "synth": "cdk synth",
+    "diff": "cdk diff --all",
+    "deploy": "cdk deploy --all --outputs-file cdk-outputs.json",
+    "destroy": "cdk destroy --all",
+    "env:frontend": "ts-node scripts/write-frontend-env.ts",
+    "cdk": "cdk",
+    "local:realtime": "ts-node scripts/local-realtime.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-apigatewaymanagementapi": "^3.1159.0",
+    "@aws-sdk/client-dynamodb": "^3.1159.0",
+    "@aws-sdk/lib-dynamodb": "^3.1159.0",
+    "aws-cdk-lib": "^2.275.0",
+    "aws-jwt-verify": "^5.2.1",
+    "constructs": "^10.8.1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.164",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.20.5",
+    "@types/ws": "^8.18.2",
+    "aws-cdk": "^2.1146.1",
+    "dynalite": "^4.0.0",
+    "esbuild": "^0.28.2",
+    "jest": "^30.5.2",
+    "ts-jest": "^29.4.15",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.9",
+    "ws": "^8.22.0"
+  }
+}

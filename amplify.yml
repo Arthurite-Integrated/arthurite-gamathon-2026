@@ -1,0 +1,38 @@
+# AWS Amplify Hosting build spec for the Vite + React app in /frontend.
+#
+# This file lives at the repository root. The Amplify app is NOT in monorepo mode (AMPLIFY_MONOREPO_APP_ROOT is
+# not set), so every command starts in the repo root, where there is no package.json. The commands below run
+# inside /frontend with a subshell, `(cd frontend && ...)`, which works whether or not the shell keeps its
+# working directory between commands. A committed amplify.yml overrides the build settings saved in the Amplify
+# console, so edit THIS file to change the hosted build. The CDK frontend stack (backend/lib/frontend-stack.ts)
+# reads this same file for the app's build spec, so there is exactly one copy. Do not set
+# AMPLIFY_MONOREPO_APP_ROOT or switch to the `applications:` / `appRoot:` form without changing both together
+# (backend/test/stack.test.ts checks this).
+#
+# The package manager is npm. The hosted build runs `npm ci`, and frontend/package-lock.json is the committed
+# lockfile. Do not add a `packageManager` or `devEngines` field to package.json that names another tool (for
+# example bun): npm refuses to run `npm ci` when they disagree, and the deploy fails before the build starts.
+#
+# Node 24 is pinned so the hosted build uses the same runtime the tests and build were verified on. Without the
+# pin, a deploy can fail for a reason that never appears on a developer machine.
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - nvm install 24
+        - nvm use 24
+        - (cd frontend && npm ci)
+    build:
+      commands:
+        # `npm run build` = `tsc --noEmit && vite build`: types are checked, then Vite writes the bundle to
+        # frontend/dist/. Tests are NOT run here. Run `npm test` before pushing.
+        - (cd frontend && npm run build)
+  artifacts:
+    # Paths are relative to the repository root, not to /frontend.
+    baseDirectory: frontend/dist
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - frontend/node_modules/**/*
